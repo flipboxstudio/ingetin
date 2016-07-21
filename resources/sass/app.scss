@@ -1,0 +1,122 @@
+@import "./node_modules/material-design-lite/src/material-design-lite.scss";
+
+html, body {
+  height: auto;
+}
+.ingetin-card-wide {
+  .mdl-card__title {
+    color: #fff;
+    height: 176px;
+    display: block;
+    background: url('/../assets/img/bg.jpg') center / cover;
+  }
+
+  .mdl-card__menu {
+    color: #fff;
+  }
+
+  .logo-card {
+    max-width: 50px;
+  }
+
+  .mdl-card__title-text {
+    margin-top: 8px;
+    font-size: 48px;
+  }
+
+  .mdl-card__subtitle-text {
+    font-size: 16px;
+  }
+
+  .logo-card,
+  .mdl-card__title-text,
+  .mdl-card__subtitle-text {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+  }
+}
+
+.ingetin-container {
+  #reload {
+    float: right;
+    margin-right: 16px;
+    color: white;
+  }
+
+  .container {
+    position: relative;
+  }
+
+  .background {
+    background: white;
+    width: 100%;
+  }
+
+  .bar {
+    box-sizing: border-box;
+    background: #3F51B5;
+    width: 100%;
+    padding-top: 16px;
+  }
+
+  #ingetin-menu {
+    margin-bottom: 16px;
+    margin-left: 4px;
+    color: #fff;
+  }
+
+  .mdl-data-table {
+    .project {
+      background-color: #eee;
+
+      &:hover {
+        background-color: #eee;
+      }
+    }
+
+    .action-cell {
+      min-width: 400px;
+
+      .start-button {
+        float: right;
+      }
+    }
+
+    tbody tr:hover {
+      background-color: #fff;
+    }
+
+    .task td {
+      .mdl-grid {
+        padding: 0;
+
+        .mdl-cell {
+          padding: 0;
+
+          .mdl-slider {
+            width: 100%;
+            margin: 0;
+          }
+
+          .mdl-slider__background-flex {
+            width: 100%;
+            margin: 0;
+          }
+        }
+      }
+
+      .mdl-slider__container {
+        top: 10px;
+      }
+
+      .mdl-textfield,
+      .mdl-textfield__input,
+      .mdl-textfield__label {
+        font-size: 13px;
+      }
+    }
+  }
+
+}
+
