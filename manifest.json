@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+
+  "name": "Ingetin",
+  "description": "This extension will help to remind you filling your timesheet everyday",
+  "version": "1.0",
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+
+  // "options_ui": {
+  //   "page": "options.html",
+  //   "chrome_style": false
+  // },
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "permissions": [
+    "activeTab"
+  ]
+}
