@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Ingetin</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="assets/css/popup.css">
+  </head>
+  <body id="app">
+
+    <div v-if="!login">
+      <div class="ingetin-card-wide mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title">
+          <img class="logo-card" src="/icon.png" alt="Ingetin">
+          <h2 class="mdl-card__title-text">Ingetin!</h2>
+          <h4 class="mdl-card__subtitle-text">Timesheet</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="email" id="email" v-model="email">
+            <label class="mdl-textfield__label" for="email">Email</label>
+            <span class="mdl-textfield__error">This is not a valid email!</span>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="password" id="password" v-model="password">
+            <label class="mdl-textfield__label" for="password">Password</label>
+          </div>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" v-on:click="authenticate(email, password)">
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ingetin-container" v-else>
+      <div class="container mdl-shadow--2dp">
+        <div class="bar">
+          <button id="ingetin-menu" class="mdl-button mdl-js-button mdl-button--icon">
+            <i class="material-icons">more_vert</i>
+          </button>
+
+          <button id="reload" class="mdl-button mdl-js-button mdl-button--icon" v-on:click="fetchTasks()">
+            <i class="material-icons">refresh</i>
+          </button>
+
+          <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="ingetin-menu">
+            <li class="mdl-menu__item" v-on:click="clearToken()">Logout</li>
+            <li class="mdl-menu__item" v-on:click="toggleTimesheet()">
+              <span>Toggle View</span>
+            </li>
+          </ul>
+
+          <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" v-if="openTimeSheet">
+            <tbody>
+              <template v-for="timesheetCollection in timesheets">
+                <tr class="project">
+                  <td class="mdl-data-table__cell--non-numeric" colspan="3">{{ $key }}</td>
+                </tr>
+                <template v-for="timesheet in timesheetCollection">
+                  <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><b>[{{ timesheet.task.project.name }}]</b> {{ timesheet.description }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ timesheet.task_type | ucfirst }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ timesheet.datetime | parse_date }}</td>
+                  </tr>
+                </template>
+              </template>
+            </tbody>
+          </table>
+
+          <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" v-else>
+
+            <tbody>
+              <template id="project" v-for="project in projects">
+                <tr class="project">
+                  <td class="mdl-data-table__cell--non-numeric">{{ project.name }}</td>
+                  <td class="mdl-data-table__cell--non-numeric">{{ project.description }}</td>
+                </tr>
+
+                <template v-if="project.task.count > 0">
+                  <tr class="task" v-for="task in project.task.data">
+                    <td class="mdl-data-table__cell--non-numeric">{{ task.name }}</td>
+                    <td class="mdl-data-table__cell--non-numeric action-cell">
+                      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored start-button" v-if="task.state === 'waiting'" v-on:click="start(task)">
+                        Start
+                      </button>
+
+                      <div class="mdl-grid" v-if="task.state === 'ongoing'">
+                        <div class="mdl-cell mdl-cell--6-col-tablet">
+                          <div class="mdl-tooltip" for="task-{{ task.id }}">
+                            {{ task.precent }}%
+                          </div>
+                          <input id="task-{{ task.id }}" class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="{{ task.precent }}" tabindex="0" step="10" v-on:change="changed(task, $event)">
+                        </div>
+                        <div class="mdl-cell mdl-cell--2-col-tablet">
+                          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="update(task)" v-if="task.precent < 100">
+                            <span>Update</span>
+                          </button>
+                          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" v-on:click="finish(task)" v-else>
+                            <span>Finish</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <span v-if="task.state === 'finish'"><i>This task has been finished</i></span>
+                    </td>
+                  </tr>
+                </template>
+
+                <template v-else>
+                  <tr class="task">
+                    <td class="mdl-data-table__cell--non-numeric" colspan="2"><i>No task yet</i></td>
+                  </tr>
+                </template>
+
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
+      <div class="mdl-snackbar__text"></div>
+
+      <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+
+    <script src="assets/js/material.js"></script>
+    <script src="assets/js/popup.js"></script>
+  </body>
+</html>
