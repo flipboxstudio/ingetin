@@ -1,19 +1,12 @@
 {
-  "name": "ingetin",
-  "version": "1.0.0",
-  "description": "This extension will help to remind you filling your timesheet everyday",
-  "main": "popup.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "gulp --production",
+    "dev": "gulp watch"
   },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "laravel-elixir": "^6.0.0-9",
-    "laravel-elixir-webpack-official": "^1.0.2",
-    "material-design-lite": "^1.1.3",
-    "moment": "^2.14.1",
-    "vue": "^1.0.26",
-    "vue-resource": "^0.9.3"
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "laravel-elixir": "^5.0.0",
+    "bootstrap-sass": "^3.3.0"
   }
 }
